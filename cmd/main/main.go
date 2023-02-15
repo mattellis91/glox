@@ -7,11 +7,11 @@ import (
 
 func main() {
 
-	args_len := len(os.Args)
+	argsLen := len(os.Args)
 
-	if args_len > 2 {
+	if argsLen > 2 {
 		fmt.Println("Ussage: zima [script]")
-	} else if args_len == 2{
+	} else if argsLen == 2{
 		runFile((os.Args[1]))
 	} else {
 		runPrompt()
@@ -40,4 +40,8 @@ func runPrompt() {
 		}
 		fmt.Println(input)
 	}
+}
+
+func run() {
+	
 }
