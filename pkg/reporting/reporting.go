@@ -8,7 +8,7 @@ func ErrorMessage(line int, mesage string) {
 	report(line, "", mesage)
 }
 
-func report(line int, where string, message string) error {
+func report(line int, where string, message string) {
 	HadError = true
-	return fmt.Errorf("[line %d ] Error %s : %s", line, where, message)
+	fmt.Println(fmt.Errorf("[line %d ] Error %s : %s", line, where, message).Error())
 }
