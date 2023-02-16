@@ -9,6 +9,10 @@ type Token struct {
 	line int
 }
 
+func (t *Token) ToString() string{
+	return fmt.Sprintf("%s %s %v | line %d", TokenToString(t.tokenType), t.lexeme, t.literal, t.line)
+}
+
 type TokenType int
 
 const (
@@ -102,8 +106,4 @@ func TokenToString(tt TokenType) string {
 		"While",
 		"Eof",
 	}[tt]
-}
-
-func (t Token) ToString() string{
-	return fmt.Sprintf("%s %s %v", TokenToString(t.tokenType), t.lexeme, t.literal)
 }

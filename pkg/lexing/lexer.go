@@ -12,11 +12,13 @@ type Lexer struct {
 	line int
 }
 
-func (l *Lexer) init(source string) {
-	l.start = 0
-	l.current = 0
-	l.line = 1
-	l.source = source
+func NewLexer (source string) *Lexer {
+	return &Lexer{
+		start: 0,
+		current: 0,
+		line: 1,
+		source: source,
+	}
 }
 
 func (l *Lexer) Tokenize() []Token {
@@ -73,7 +75,23 @@ func (l *Lexer) scanToken() {
 			} else {
 				l.addToken(Greater, nil)
 			}
-		} 
+		}
+		case '/' : {
+			if l.match('/') {
+				//comment tokens go until end of line
+				for l.peek() != '\n' && !l.isAtEnd(){ l.advance() }
+			} else {
+				l.addToken(Slash, nil)
+			}
+		}
+		case ' ':
+		case '\r':
+		case '\t':
+			break
+		case '\n':
+			l.line++
+		case '"':
+			l.string()
 		default:
 			reporting.ErrorMessage(l.line, "Unexpected Character")
 			
@@ -82,7 +100,7 @@ func (l *Lexer) scanToken() {
 
 func (l *Lexer) advance() byte{
 	l.current++
-	return l.source[l.current]
+	return l.source[l.current - 1]
 }
 
 func (l *Lexer) addToken(tt TokenType, literal any) {
@@ -99,5 +117,30 @@ func (l *Lexer) match(expected byte) bool {
 	}
 	l.current++
 	return true
+}
+
+func (l *Lexer) peek() byte {
+	if l.isAtEnd() {
+		return 0
+	}
+	return l.source[l.current]
+}
+
+func (l *Lexer) string() {
+	for l.peek() != '"' && !l.isAtEnd() {
+		if l.peek() == '\n' {
+			l.line++
+		}
+		l.advance()
+	}
+
+	if(l.isAtEnd()) {
+		reporting.ErrorMessage(l.line, "Unterminated String")
+		return
+	}
+
+	l.advance()
+	value := l.source[l.start + 1 : l.current - 1]
+	l.addToken(String, value)
 }
 

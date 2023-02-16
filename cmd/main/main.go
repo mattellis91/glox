@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"github.com/mattellis91/zima/pkg/lexing"
 )
 
 func main() {
@@ -21,12 +22,21 @@ func main() {
 func runFile(filepath string) {
 	dat, err := os.ReadFile(filepath)
 	check(err)
-	fmt.Print(string(dat))
+	run(string(dat))
 }
 
 func check(e error) {
 	if e != nil {
 		panic(e)
+	} 
+}
+
+func run(source string) {
+	lexer := lexing.NewLexer(source)
+	tokens := lexer.Tokenize()
+
+	for _, token := range tokens {
+		fmt.Println(token.ToString())
 	} 
 }
 
@@ -42,6 +52,3 @@ func runPrompt() {
 	}
 }
 
-func run() {
-	
-}
