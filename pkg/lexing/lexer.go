@@ -114,6 +114,8 @@ func (l *Lexer) scanToken() {
 	default:
 		if(isDigit(c)) {
 			l.number()
+		} else if isAlpha(c) {
+			l.identifier()
 		} else {
 			reporting.ErrorMessage(l.line, "Unexpected Character")
 		}
@@ -191,6 +193,29 @@ func (l *Lexer) number() {
 	l.addToken(Number, val)
 }
 
+func (l *Lexer) identifier() {
+	for isAlphaNumeric(l.peek()) {
+		l.advance()
+	}
+
+	text := l.source[l.start : l.current]
+	tt, exists := keywords[text]
+	if !exists {
+		tt = Identifier
+	}
+	l.addToken(tt, nil)
+}
+
 func isDigit(c byte) bool {
 	return c >= '0' && c <= '9'
+}
+
+func isAlpha(c byte) bool {
+	return (c >= 'a' && c <= 'z') ||
+		   (c >= 'A' && c <= 'Z') ||
+		    c == '_';
+}
+
+func isAlphaNumeric(c byte) bool {
+	return isAlpha(c) || isDigit(c)
 }

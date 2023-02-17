@@ -3,3 +3,7 @@
 !*+-/=<> <= == // operators
 <<>
 12.23
+someIdent
+"my string"
+or and
+orand
