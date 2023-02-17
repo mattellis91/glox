@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"github.com/mattellis91/zima/pkg/lexing"
+	"github.com/mattellis91/zima/pkg/util"
 )
 
 func main() {
@@ -21,14 +22,8 @@ func main() {
 
 func runFile(filepath string) {
 	dat, err := os.ReadFile(filepath)
-	check(err)
+	util.Check(err)
 	run(string(dat))
-}
-
-func check(e error) {
-	if e != nil {
-		panic(e)
-	} 
 }
 
 func run(source string) {

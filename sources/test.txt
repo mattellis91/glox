@@ -2,4 +2,4 @@
 (( )){} // grouping stuff
 !*+-/=<> <= == // operators
 <<>
-1
+12.23

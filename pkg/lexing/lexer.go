@@ -1,7 +1,9 @@
 package lexing
 
 import (
+	"strconv"
 	"github.com/mattellis91/zima/pkg/reporting"
+	"github.com/mattellis91/zima/pkg/util"
 )
 
 type Lexer struct {
@@ -146,6 +148,13 @@ func (l *Lexer) peek() byte {
 	return l.source[l.current]
 }
 
+func (l *Lexer) peekNext() byte {
+	if l.current + 1 >= len(l.source) {
+		return 0
+	}
+	return l.source[l.current + 1]
+}
+
 func (l *Lexer) string() {
 	for l.peek() != '"' && !l.isAtEnd() {
 		if l.peek() == '\n' {
@@ -165,7 +174,21 @@ func (l *Lexer) string() {
 }
 
 func (l *Lexer) number() {
-	//lex add number token
+	for isDigit(l.peek()) {
+		l.advance()
+	}
+
+	if(l.peek() == '.' && isDigit(l.peekNext())) {
+		l.advance()
+		for isDigit(l.peek()) {
+			l.advance()
+		}
+	}
+
+	val, err := strconv.ParseFloat(l.source[l.start : l.current], 64)
+	util.Check(err)
+
+	l.addToken(Number, val)
 }
 
 func isDigit(c byte) bool {
