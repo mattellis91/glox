@@ -15,6 +15,11 @@ func main() {
 	printer := &parsing.AstPrinter{}
 	printer.Print(parsing.NewLiteralExpression(123))
 
+	ue := parsing.NewUnaryExpression(lexing.Token{lexing.Minus, "-", nil, 1}, parsing.NewLiteralExpression(1123));
+	be := parsing.NewBinaryExpression(ue, lexing.Token{lexing.Star, "*", nil, 1}, parsing.NewGroupingExpression(parsing.NewLiteralExpression(45.67)))
+	printer.Print(ue) 
+	printer.Print(be)
+
 	if argsLen > 2 {
 		fmt.Println("Ussage: zima [script]")
 	} else if argsLen == 2{

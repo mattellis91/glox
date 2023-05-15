@@ -3,14 +3,14 @@ package lexing
 import "fmt"
 
 type Token struct {
-	tokenType TokenType
-	lexeme string
-	literal any
-	line int
+	TokenType TokenType
+	Lexeme string
+	Literal any
+	Line int
 }
 
 func (t *Token) ToString() string{
-	return fmt.Sprintf("%s %s %v | line %d", TokenToString(t.tokenType), t.lexeme, t.literal, t.line)
+	return fmt.Sprintf("%s %s %v | line %d", TokenToString(t.TokenType), t.Lexeme, t.Literal, t.Line)
 }
 
 type TokenType int
