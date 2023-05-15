@@ -2,7 +2,6 @@ package lexing
 
 import (
 	"strconv"
-	"github.com/mattellis91/zima/pkg/reporting"
 	"github.com/mattellis91/zima/pkg/util"
 )
 
@@ -15,6 +14,7 @@ type Lexer struct {
 }
 
 func NewLexer(source string) *Lexer {
+
 	return &Lexer{
 		start:   0,
 		current: 0,
@@ -117,7 +117,7 @@ func (l *Lexer) scanToken() {
 		} else if isAlpha(c) {
 			l.identifier()
 		} else {
-			reporting.ErrorMessage(l.line, "Unexpected Character")
+			util.ErrorMessage(l.line, "Unexpected Character")
 		}
 	}
 }
@@ -166,7 +166,7 @@ func (l *Lexer) string() {
 	}
 
 	if l.isAtEnd() {
-		reporting.ErrorMessage(l.line, "Unterminated String")
+		util.ErrorMessage(l.line, "Unterminated String")
 		return
 	}
 

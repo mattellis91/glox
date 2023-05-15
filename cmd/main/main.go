@@ -4,12 +4,16 @@ import (
 	"fmt"
 	"os"
 	"github.com/mattellis91/zima/pkg/lexing"
+	"github.com/mattellis91/zima/pkg/parsing"
 	"github.com/mattellis91/zima/pkg/util"
 )
 
 func main() {
 
 	argsLen := len(os.Args)
+
+	printer := &parsing.AstPrinter{}
+	printer.Print(parsing.NewLiteralExpression(123))
 
 	if argsLen > 2 {
 		fmt.Println("Ussage: zima [script]")

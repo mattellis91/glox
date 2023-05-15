@@ -6,7 +6,8 @@ import (
 )
 
 type Expression interface {
-	ToString() string	
+	ToString() string
+	accept(v visitor)	
 }
 
 type BinaryExpression struct {
@@ -28,6 +29,13 @@ type UnaryExpression struct {
 	right Expression 
 }
 
+type visitor interface {
+	visitForBinaryExpression(be *BinaryExpression)
+	visitForGroupingExpression(bg *GroupingExpression)
+	visitForLiteralExpression(le *LiteralExpression)
+	visitForUnaryExpression(ue *UnaryExpression)
+}
+
 func NewBinaryExpression(left Expression, operator lexing.Token, right Expression) *BinaryExpression {
 	return &BinaryExpression{
 		left: left,
@@ -36,10 +44,18 @@ func NewBinaryExpression(left Expression, operator lexing.Token, right Expressio
 	}	
 }
 
+func (be *BinaryExpression) accept(v visitor) {
+	v.visitForBinaryExpression(be)
+}
+
 func NewGroupingExpression(expression Expression) *GroupingExpression {
 	return &GroupingExpression{
 		expression: expression,
 	}
+}
+
+func (ge *GroupingExpression) accept(v visitor) {
+	v.visitForGroupingExpression(ge)
 }
 
 func NewLiteralExpression(value any) *LiteralExpression {
@@ -48,12 +64,20 @@ func NewLiteralExpression(value any) *LiteralExpression {
 	}
 }
 
+func (le *LiteralExpression) accept(v visitor) {
+	v.visitForLiteralExpression(le)
+}
+
 func NewUnaryExpression(operator lexing.Token, right Expression) *UnaryExpression {
 	return &UnaryExpression{
 		operator: operator,
 		right: right,
 	}
 } 
+
+func (ue *UnaryExpression) accept(v visitor) {
+	v.visitForUnaryExpression(ue)
+}
 
 func (be *BinaryExpression) ToString() string {
 	return fmt.Sprintf("Binary Expression: %s | %s | %s", be.left.ToString(), be.operator.ToString(), be.right.ToString())
