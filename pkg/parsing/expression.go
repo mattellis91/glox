@@ -2,7 +2,7 @@ package parsing
 
 import (
 	"fmt"
-	"github.com/mattellis91/zima/pkg/lexing"
+	"github.com/mattellis91/glox/pkg/lexing"
 )
 
 type Expression interface {

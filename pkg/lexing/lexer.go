@@ -2,7 +2,7 @@ package lexing
 
 import (
 	"strconv"
-	"github.com/mattellis91/zima/pkg/util"
+	"github.com/mattellis91/glox/pkg/util"
 )
 
 type Lexer struct {

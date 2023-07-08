@@ -3,9 +3,9 @@ package main
 import (
 	"fmt"
 	"os"
-	"github.com/mattellis91/zima/pkg/lexing"
-	"github.com/mattellis91/zima/pkg/parsing"
-	"github.com/mattellis91/zima/pkg/util"
+	"github.com/mattellis91/glox/pkg/lexing"
+	"github.com/mattellis91/glox/pkg/parsing"
+	"github.com/mattellis91/glox/pkg/util"
 )
 
 func main() {
@@ -15,8 +15,9 @@ func main() {
 	printer := &parsing.AstPrinter{}
 	printer.Print(parsing.NewLiteralExpression(123))
 
-	ue := parsing.NewUnaryExpression(lexing.Token{lexing.Minus, "-", nil, 1}, parsing.NewLiteralExpression(1123));
-	be := parsing.NewBinaryExpression(ue, lexing.Token{lexing.Star, "*", nil, 1}, parsing.NewGroupingExpression(parsing.NewLiteralExpression(45.67)))
+	//TESTING AST PRINTER
+	ue := parsing.NewUnaryExpression(lexing.Token{TokenType: lexing.Minus, Lexeme: "-", Literal: nil, Line: 1}, parsing.NewLiteralExpression(1123));
+	be := parsing.NewBinaryExpression(ue, lexing.Token{TokenType: lexing.Star, Lexeme: "*", Literal: nil, Line: 1}, parsing.NewGroupingExpression(parsing.NewLiteralExpression(45.67)))
 	printer.Print(ue) 
 	printer.Print(be)
 
