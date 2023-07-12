@@ -2,7 +2,9 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"os"
+
 	"github.com/mattellis91/glox/pkg/lexing"
 	"github.com/mattellis91/glox/pkg/parsing"
 	"github.com/mattellis91/glox/pkg/util"
@@ -38,7 +40,11 @@ func runFile(filepath string) {
 
 func run(source string) {
 	lexer := lexing.NewLexer(source)
-	tokens := lexer.Tokenize()
+	tokens, err := lexer.Tokenize()
+
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	for _, token := range tokens {
 		fmt.Println(token.ToString())

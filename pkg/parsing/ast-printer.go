@@ -12,17 +12,14 @@ func (astp *AstPrinter) Print(expr Expression) {
 }
 
 func (astp *AstPrinter) visitForBinaryExpression(be *BinaryExpression) {
-	//TODO: implement visit for binary expression
 	astp.parenthesize(be.operator.Lexeme, be.left, be.right)
 }
 
 func (astp *AstPrinter) visitForGroupingExpression(ge *GroupingExpression) {
-	//TODO: implement visit for grouping expression
 	astp.parenthesize("Group", ge.expression)
 }
 
 func (astp *AstPrinter) visitForLiteralExpression(le *LiteralExpression) {
-	//TODO: implement visit for literal expression
 	if le == nil {
 		fmt.Print("nil")
 		return
@@ -31,7 +28,6 @@ func (astp *AstPrinter) visitForLiteralExpression(le *LiteralExpression) {
 }
 
 func (astp *AstPrinter) visitForUnaryExpression(ue *UnaryExpression) {
-	//TODO: implement visit for unary expression
 	astp.parenthesize(ue.operator.Lexeme, ue.right)
 }
 
