@@ -1,8 +1,9 @@
 package lexing
 
 import (
+	"fmt"
 	"strconv"
-	"errors"
+
 	"github.com/mattellis91/glox/pkg/util"
 )
 
@@ -27,9 +28,7 @@ func NewLexer(source string) *Lexer {
 func (l *Lexer) Tokenize() ([]Token, error) {
 	for !l.isAtEnd() {
 		l.start = l.current
-		if err := l.scanToken(); err != nil {
-			return nil, err
-		}
+		l.scanToken()
 	}
 
 	l.tokens = append(l.tokens, Token{Eof, "", nil, l.line})
@@ -40,7 +39,7 @@ func (l *Lexer) isAtEnd() bool {
 	return l.current >= len(l.source)
 }
 
-func (l *Lexer) scanToken() error {
+func (l *Lexer) scanToken() {
 	c := l.advance()
 	switch c {
 	case '(':
@@ -120,11 +119,10 @@ func (l *Lexer) scanToken() error {
 		} else if isAlpha(c) {
 			l.identifier()
 		} else {
-			return errors.New(util.ErrorMessage(l.line, "Unexpected Character"))
+			panic(fmt.Sprintf("Unexpected Character : '%c'", c))
 		}
 	}
 
-	return nil
 }
 
 func (l *Lexer) advance() byte {

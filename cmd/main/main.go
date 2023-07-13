@@ -42,6 +42,8 @@ func run(source string) {
 	lexer := lexing.NewLexer(source)
 	tokens, err := lexer.Tokenize()
 
+	fmt.Println(tokens)
+
 	if err != nil {
 		log.Fatal(err)
 	}
